@@ -1,1 +1,7 @@
-/documentos/*.mp4
+/documentos/*
+!/documentos/Mapeamento para Prova de Conceito.docx
+!/documentos/DADOS LANÇAMENTOS.xlsx
+!/documentos/Mapeamentos da Automação.txt
+
+**/__pycache__
+*.log

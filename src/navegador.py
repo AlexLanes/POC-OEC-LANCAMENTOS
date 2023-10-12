@@ -1,11 +1,9 @@
 # std
-from time import sleep
 from typing import Literal, overload, Callable
 # interno
 from src.util import *
 from src.logger import *
 # externo
-from selenium.webdriver.common.by import By
 from selenium.webdriver import Ie, IeOptions
 from selenium.common import TimeoutException
 from selenium.webdriver.edge.service import Service
@@ -40,6 +38,11 @@ class Navegador:
     def abas(self):
         """ID das abas abertas"""
         return self.driver.window_handles
+    
+    @property
+    def titulo(self) -> str:
+        """Titulo da aba atual"""
+        return self.driver.title
 
     def pesquisar(self, url: str):
         """Pesquisar o url na aba focada"""
@@ -60,10 +63,10 @@ class Navegador:
     
     def focar_aba(self, aba: str = None):
         """Focar na aba informada.\n
-        Default é a última aba `self.abas[-1]`"""
+        - Default é a última aba `self.abas[-1]`"""
         aba = self.abas[-1] if not aba else aba
         self.driver.switch_to.window(aba)
-        Logger.informar(f"O navegador focou na aba '{ self.driver.title }'")
+        Logger.informar(f"O navegador focou na aba '{ self.titulo }'")
 
     @overload
     def encontrar(self, estrategia: ESTRATEGIAS, localizador: str) -> WebElement | None:
