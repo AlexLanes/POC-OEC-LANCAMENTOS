@@ -3,10 +3,20 @@ import re
 from json import dumps
 from inspect import stack
 from unicodedata import normalize
-from dataclasses import dataclass
+from multiprocessing.pool import ThreadPool
+# interno
+from src.tipos import *
 # externo
 from pandas import DataFrame, ExcelWriter
 from xlsxwriter.worksheet import Worksheet
+
+def timeout(segundos: float):
+    """Decorator\n-\nExecutar a função por `segundos` segundos até retornar ou `TimeoutError`"""
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            return ThreadPool(1).apply_async(func, args, kwargs).get(segundos) 
+        return wrapper
+    return decorator
 
 def remover_acentuacao(string: str) -> str:
     """Remover a acentuação de uma string"""
@@ -32,12 +42,6 @@ def ajustar_colunas(excel: ExcelWriter) -> None:
         planilha: Worksheet = excel.sheets[nomePlanilha]
         planilha.autofit()
 
-@dataclass
-class Arquivo:
-    nome: str
-    caminho: str
-    funcao: str
-    linha: int
 def info_stack(index = 1) -> Arquivo:
     """Obter informações presente no stack dos callers.\n
     - Padrão = Arquivo que chamou o info_stack()"""

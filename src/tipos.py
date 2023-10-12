@@ -3,11 +3,16 @@ from enum import Enum, unique
 from dataclasses import dataclass
 from typing import TypeAlias, Literal
 
-
 email: TypeAlias = str
 caminhoRelativo: TypeAlias = str
 caminhoAbsoluto: TypeAlias = str
 
+@dataclass
+class Arquivo:
+    nome: str
+    caminho: str
+    funcao: str
+    linha: int
 
 @unique
 class Localizadores(Enum):
@@ -20,7 +25,6 @@ class Localizadores(Enum):
     navegacao_dclick = "a#AppsNavLink"
     efetuar_login = "button#SubmitButton"
     texto_aplicativo_oracle = "Aplicativos Oracle"
-
 
 @dataclass
 class Material:
@@ -43,7 +47,6 @@ class OrdemServico:
     tipoOrdemServico: str
     tipoDesativacao: str
     prioridade: str
-
 
 class DadoLancamento:
     Ordem: OrdemServico
@@ -72,6 +75,7 @@ class DadoLancamento:
 
 __all__ = [
     "email",
+    "Arquivo",
     "Material",
     "OrdemServico",
     "Localizadores",
