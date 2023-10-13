@@ -7,6 +7,7 @@ from src.logger import *
 from selenium.webdriver import Ie, IeOptions
 from selenium.common import TimeoutException
 from selenium.webdriver.edge.service import Service
+from selenium.webdriver.support.select import Select
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait as Wait
 
@@ -80,6 +81,12 @@ class Navegador:
         Logger.informar(f"Encontrado { len(elementos) } elemento(s)")
         if len(elementos) == 0: return None
         return elementos[0] if primeiro else elementos
+    
+    def seletor(self, elemento: WebElement) -> Select | None:
+        """Retornar o handler do elemento html <select>"""
+        if not elemento or elemento.tag_name != "select": return None
+        Logger.informar(f"Criando um handler de seletor")
+        return Select(elemento)
         
     def aguardar(self, condicao: Callable[[], bool], mensagemErro: str = None):
         """Repete a condição até que resulte em `True` ou `TimeoutException` com a `mensagemErro`"""

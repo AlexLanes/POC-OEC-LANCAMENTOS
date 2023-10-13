@@ -13,6 +13,60 @@ SITE_EBS = "https://o2qa.odebrecht.com"
 USUARIO = "dclick"
 SENHA = "senha123"
 
+def abrir_ordens_de_servico(navegador: Navegador):
+    """Abrir a aba das Ordens de Serviço"""
+    Logger.informar("Abrindo a aba das Ordens de Serviço")
+    # Clicar em 'Ordens de Serviço'
+    elemento = navegador.encontrar("css selector", Localizadores.aba_ordens_servico.value)
+    assert elemento != None, "Elemento 'Ordens de Serviço' não localizado"
+    elemento.click()
+    # Aguardar carregar
+    elemento = navegador.encontrar("css selector", Localizadores.input_ordem_servico.value)
+    assert elemento != None, "Elemento 'Ordem de Serviço' não localizado"
+    Logger.informar("Aba 'Ordens de Serviço' aberta")
+
+def abrir_organizacao(navegador: Navegador, organizacao: str):
+    """Selecionar a organização informada e clicar em `Ir`"""
+    Logger.informar(f"Abrindo a organização '{organizacao}'")
+    # Criando o seletor que será manipulado
+    elemento = navegador.encontrar("css selector", Localizadores.organizacao.value)
+    seletor = navegador.seletor(elemento)
+    # Verificar se existe a opção
+    opcoes = [ elemento.text.lower() for elemento in seletor.options ]
+    assert organizacao.lower() in opcoes, f"Organização '{organizacao}' não encontrada nas opções '{opcoes}'"
+    
+    # BUG - Não compatível com o IE
+    # texto = [ opcao.text for opcao in seletor.options if opcao.text.lower() == organizacao.lower() ][0]
+    # seletor.select_by_visible_text(texto)
+    # -------------------------------------
+    # Selecionar opção 
+    index = [ index for index, opcao in enumerate(seletor.options) if opcao.text.lower() == organizacao.lower() ][0]
+    elemento.click()
+    for _ in range(index): Windows.atalho(["down"])
+    Windows.atalho(["enter"])
+    
+    # `Ir`
+    elemento = navegador.encontrar("css selector", Localizadores.ir.value)
+    assert elemento != None, f"Elemento 'Ir' não localizado"
+    elemento.click()
+    Logger.informar(f"Organização '{organizacao}' aberta")
+
+def abrir_gerenciamento_ativo(navegador: Navegador):
+    """Clicar em `AUTOMACAO DCLICK`, `Início` e esperar o refresh"""
+    Logger.informar("Abrindo o Gerenciamento de Ativo")
+    # aba "AUTOMACAO DCLICK"
+    elemento = navegador.encontrar("css selector", Localizadores.navegacao_dclick.value)
+    assert elemento != None, "Navegação 'AUTOMACAO DCLICK' não encontrada"
+    elemento.click()
+    # elemento "Início"
+    elemento = navegador.encontrar("css selector", Localizadores.inicio.value)
+    assert elemento != None, "Elemento 'Início' não encontrado"
+    elemento.click()
+    # aguardar a "Organização" carregar
+    elemento = navegador.encontrar("css selector", Localizadores.organizacao.value)
+    assert elemento != None, "Elemento 'Organização' não encontrado"
+    Logger.informar(f"Gerenciamento de Ativo aberto")
+
 def efetuar_login(navegador: Navegador):
     """Efetuar o login no `SITE_EBS` e esperar a página Home carregar"""
     Logger.informar("Efetuando o login")
@@ -43,6 +97,7 @@ def efetuar_login(navegador: Navegador):
 def main():
     """Fluxo principal"""
     dadosLancamentos = parse_dados_lancamentos(CAMINHO_EXCEL)
+    print(dadosLancamentos[0])
 
     try:
         # abrir navegador no modo Internet Explorer
@@ -52,6 +107,16 @@ def main():
             janelaNavegador = Windows.janela_focada()
             janelaNavegador.maximizar()
             efetuar_login(navegador)
+            
+            # abrir a automação dclick, gerenciamento ativo e aguardar o refresh
+            abrir_gerenciamento_ativo(navegador)
+
+            # abrir a organização presente no `dadosLancamentos`
+            # abrir as ordens de serviço da organização
+            abrir_organizacao(navegador, "ACN") # TODO - Pegar da planilha a organização
+            abrir_ordens_de_servico(navegador)
+
+            sleep(5)
     
     except (TimeoutException, TimeoutError) as erro:
         Logger.erro(f"Erro de timeout na espera de alguma condição/elemento/janela: { erro }")

@@ -16,15 +16,17 @@ class Arquivo:
 
 @unique
 class Localizadores(Enum):
-    recurso = "a#N55"
+    inicio = "a#N81"
+    ir = "button#Go1"
     texto_login = "Login"
-    departamento = "a#N61"
     texto_home = "Home Page"
     senha = "input#passwordField"
     usuario = "input#usernameField"
     navegacao_dclick = "a#AppsNavLink"
+    organizacao = "select#Organization"
+    aba_ordens_servico = "a#EAM_WO_MENU"
     efetuar_login = "button#SubmitButton"
-    texto_aplicativo_oracle = "Aplicativos Oracle"
+    input_ordem_servico = "input#WorkOrderSS"
 
 @dataclass
 class Material:

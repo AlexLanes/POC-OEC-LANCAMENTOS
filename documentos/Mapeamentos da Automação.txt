@@ -20,3 +20,18 @@ Pesquisar o site "https://o2qa.odebrecht.com"
 Clicar em "AUTOMACAO DCLICK" 
     selector = a#AppsNavLink
     aguardar o refresh
+
+Clicar e "Início"
+    selector = a#N81
+    aguardar o refresh
+
+Clicar no seletor
+    selector = select#Organization
+    selecionar a opção de acordo com a planilha, coluna OBRA
+
+Clicar em "Ir"
+    aguardar o refresh
+
+Clicar em "Ordens de Serviço"
+    aguardar o refresh
+
