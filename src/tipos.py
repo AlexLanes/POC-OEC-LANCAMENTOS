@@ -1,7 +1,7 @@
 # std
+from typing import TypeAlias
 from enum import Enum, unique
 from dataclasses import dataclass
-from typing import TypeAlias, Literal
 
 email: TypeAlias = str
 caminhoRelativo: TypeAlias = str
@@ -26,7 +26,10 @@ class Localizadores(Enum):
     organizacao = "select#Organization"
     aba_ordens_servico = "a#EAM_WO_MENU"
     efetuar_login = "button#SubmitButton"
+    input_grupo_ativo = "input#AssetGroup"
+    input_numero_ativo = "input#AssetNumber"
     input_ordem_servico = "input#WorkOrderSS"
+    button_criar_ordem_servico = "button#createWO"
 
 @dataclass
 class Material:

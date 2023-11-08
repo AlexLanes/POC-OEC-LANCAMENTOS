@@ -30,8 +30,12 @@ Clicar no seletor
     selecionar a opção de acordo com a planilha, coluna OBRA
 
 Clicar em "Ir"
+    selector = button#Go1
     aguardar o refresh
 
 Clicar em "Ordens de Serviço"
+    selector = a#EAM_WO_MENU
     aguardar o refresh
 
+Clicar em "Criar Ordem de Serviço"
+    selector = button#createWO

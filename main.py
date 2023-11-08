@@ -13,7 +13,7 @@ SITE_EBS = "https://o2qa.odebrecht.com"
 USUARIO = "dclick"
 SENHA = "senha123"
 
-def abrir_ordens_de_servico(navegador: Navegador):
+def abrir_ordens_de_servico (navegador: Navegador):
     """Abrir a aba das Ordens de Serviço"""
     Logger.informar("Abrindo a aba das Ordens de Serviço")
     # Clicar em 'Ordens de Serviço'
@@ -25,7 +25,7 @@ def abrir_ordens_de_servico(navegador: Navegador):
     assert elemento != None, "Elemento 'Ordem de Serviço' não localizado"
     Logger.informar("Aba 'Ordens de Serviço' aberta")
 
-def abrir_organizacao(navegador: Navegador, organizacao: str):
+def abrir_organizacao (navegador: Navegador, organizacao: str):
     """Selecionar a organização informada e clicar em `Ir`"""
     Logger.informar(f"Abrindo a organização '{organizacao}'")
     # Criando o seletor que será manipulado
@@ -38,7 +38,7 @@ def abrir_organizacao(navegador: Navegador, organizacao: str):
     # BUG - Não compatível com o IE
     # texto = [ opcao.text for opcao in seletor.options if opcao.text.lower() == organizacao.lower() ][0]
     # seletor.select_by_visible_text(texto)
-    # -------------------------------------
+    
     # Selecionar opção 
     index = [ index for index, opcao in enumerate(seletor.options) if opcao.text.lower() == organizacao.lower() ][0]
     elemento.click()
@@ -51,7 +51,7 @@ def abrir_organizacao(navegador: Navegador, organizacao: str):
     elemento.click()
     Logger.informar(f"Organização '{organizacao}' aberta")
 
-def abrir_gerenciamento_ativo(navegador: Navegador):
+def abrir_gerenciamento_ativo (navegador: Navegador):
     """Clicar em `AUTOMACAO DCLICK`, `Início` e esperar o refresh"""
     Logger.informar("Abrindo o Gerenciamento de Ativo")
     # aba "AUTOMACAO DCLICK"
@@ -67,7 +67,7 @@ def abrir_gerenciamento_ativo(navegador: Navegador):
     assert elemento != None, "Elemento 'Organização' não encontrado"
     Logger.informar(f"Gerenciamento de Ativo aberto")
 
-def efetuar_login(navegador: Navegador):
+def efetuar_login (navegador: Navegador):
     """Efetuar o login no `SITE_EBS` e esperar a página Home carregar"""
     Logger.informar("Efetuando o login")
     navegador.pesquisar(SITE_EBS)

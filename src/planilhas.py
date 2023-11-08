@@ -53,6 +53,9 @@ def parse_dados_lancamentos(caminho: caminhoAbsoluto) -> list[DadoLancamento]:
         df["motivo_aplicacao"] = df["motivo_aplicacao"].astype(str)
         df["data_inicial_programacao"] = df["data_inicial_programacao"].dt.strftime("%d-%b-%Y %H:%M:%S")
         df["data_termino_programacao"] = df["data_termino_programacao"].dt.strftime("%d-%b-%Y %H:%M:%S")
+        
+        # TODO - converter os nomes dos meses para:
+        # jan, fev, mar, abr, mai, jun, jul, ago, set, out, nov, dez
 
         # validação dos tipos do dataframe
         tiposDf = list( mapear_dtypes(df).values() )
